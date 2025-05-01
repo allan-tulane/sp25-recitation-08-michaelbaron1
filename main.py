@@ -1,19 +1,35 @@
 from collections import deque
 from heapq import heappush, heappop 
 
+
 def shortest_shortest_path(graph, source):
     """
-    Params: 
-      graph.....a graph represented as a dict where each key is a vertex
-                and the value is a set of (vertex, weight) tuples (as in the test case)
-      source....the source node
-      
-    Returns:
-      a dict where each key is a vertex and the value is a tuple of
-      (shortest path weight, shortest path number of edges). See test case for example.
+    Efficiently computes the shortest paths from source to all other nodes,
+    tracking both weight and number of edges.
     """
-    ### TODO
-    pass
+    heap = [(0, 0, source)]  # (total_weight, num_edges, current_node)
+    visited = {}
+
+    while heap:
+        weight, edges, node = heapq.heappop(heap)
+        print(f"heap: {heap}")
+        print(f"weight: {weight}, node: {node}, edges: {edges}")
+        print(f"vistited: {visited}")
+        print("_____")
+        if node in visited:
+            prev_weight, prev_edges = visited[node]
+            if weight > prev_weight or (weight == prev_weight and edges >= prev_edges):
+                continue
+
+        visited[node] = (weight, edges)
+
+        for neighbor, w in graph.get(node, []):
+            if neighbor not in visited or weight + w < visited[neighbor][0] or \
+               (weight + w == visited[neighbor][0] and edges + 1 < visited[neighbor][1]):
+                heapq.heappush(heap, (weight + w, edges + 1, neighbor))
+
+    return print(visited)
+
     
 
     

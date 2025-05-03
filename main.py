@@ -33,14 +33,24 @@ def shortest_shortest_path(graph, source):
     
 
     
-    
-def bfs_path(graph, source):
+    def bfs_path(graph, source):
     """
     Returns:
       a dict where each key is a vertex and the value is the parent of 
       that vertex in the shortest path tree.
     """
-    ###TODO
+    parents = {}
+    visited = {source}
+    queue = deque([source])
+
+    while queue:
+        u = queue.popleft()
+        for v in graph[u]:
+            if v not in visited:
+                visited.add(v)
+                parents[v] = u
+                queue.append(v)
+    return parents
     pass
 
 def get_sample_graph():
@@ -59,6 +69,15 @@ def get_path(parents, destination):
       The shortest path from the source node to this destination node 
       (excluding the destination node itself). See test_get_path for an example.
     """
-    ###TODO
+    path_rev = []
+    cur = destination
+    # follow parent‐pointers back to the source
+    while cur in parents:
+        p = parents[cur]
+        path_rev.append(p)
+        cur = p
+    # reverse to get source parent_of_destination
+    path = list(reversed(path_rev))
+    # concatenate
+    return ''.join(path)
     pass
-

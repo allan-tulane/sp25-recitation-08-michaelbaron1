@@ -1,7 +1,6 @@
 from collections import deque
 from heapq import heappush, heappop 
-
-
+import math
 def shortest_shortest_path(graph, source):
     """
     Efficiently computes the shortest paths from source to all other nodes,
@@ -11,7 +10,7 @@ def shortest_shortest_path(graph, source):
     visited = {}
 
     while heap:
-        weight, edges, node = heapq.heappop(heap)
+        weight, edges, node = heappop(heap)
         print(f"heap: {heap}")
         print(f"weight: {weight}, node: {node}, edges: {edges}")
         print(f"vistited: {visited}")
@@ -26,10 +25,9 @@ def shortest_shortest_path(graph, source):
         for neighbor, w in graph.get(node, []):
             if neighbor not in visited or weight + w < visited[neighbor][0] or \
                (weight + w == visited[neighbor][0] and edges + 1 < visited[neighbor][1]):
-                heapq.heappush(heap, (weight + w, edges + 1, neighbor))
+                heappush(heap, (weight + w, edges + 1, neighbor))
 
-    return print(visited)
-
+    return visited
     
 
     
